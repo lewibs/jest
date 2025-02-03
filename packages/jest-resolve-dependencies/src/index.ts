@@ -34,7 +34,16 @@ export class DependencyResolver {
     this._snapshotResolver = snapshotResolver;
   }
 
-  resolve(file: string, options?: ResolveModuleConfig): Array<string> {
+  resolve(
+    file: string, 
+    options?: ResolveModuleConfig,
+    maxDepth: number = Infinity,
+    currentDepth: number = 0
+  ): Array<string> {
+    if (currentDepth >= maxDepth) {
+      return [];
+    }
+
     const dependencies = this._hasteFS.getDependencies(file);
     if (!dependencies) {
       return [];
@@ -66,6 +75,17 @@ export class DependencyResolver {
       }
 
       acc.push(resolvedDependency);
+
+      // If we're not at max depth, recursively resolve dependencies
+      if (currentDepth + 1 < maxDepth) {
+        const nestedDependencies = this.resolve(
+          resolvedDependency,
+          options,
+          maxDepth,
+          currentDepth + 1
+        );
+        acc.push(...nestedDependencies);
+      }
 
       // If we resolve a dependency, then look for a mock dependency
       // of the same name in that dependency's directory.
@@ -100,6 +120,7 @@ export class DependencyResolver {
     paths: Set<string>,
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
+    maxDepth: number = Infinity,
   ): Array<ResolvedModule> {
     if (paths.size === 0) {
       return [];
@@ -109,10 +130,11 @@ export class DependencyResolver {
       related: Set<string>,
       moduleMap: Array<ResolvedModule>,
       changed: Set<string>,
+      depth: number = 0
     ) => {
       const visitedModules = new Set();
       const result: Array<ResolvedModule> = [];
-      while (changed.size > 0) {
+      while (changed.size > 0 && depth < maxDepth) {
         changed = new Set(
           moduleMap.reduce<Array<string>>((acc, module) => {
             if (
@@ -132,6 +154,7 @@ export class DependencyResolver {
             return acc;
           }, []),
         );
+        depth++;
       }
       return [
         ...result,
@@ -155,7 +178,7 @@ export class DependencyResolver {
     const modules: Array<ResolvedModule> = [];
     for (const file of this._hasteFS.getAbsoluteFileIterator()) {
       modules.push({
-        dependencies: this.resolve(file, options),
+        dependencies: this.resolve(file, options, maxDepth),
         file,
       });
     }
@@ -166,8 +189,9 @@ export class DependencyResolver {
     paths: Set<string>,
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
+    maxDepth: number = Infinity,
   ): Array<string> {
-    return this.resolveInverseModuleMap(paths, filter, options).map(
+    return this.resolveInverseModuleMap(paths, filter, options, maxDepth).map(
       module => module.file,
     );
   }
