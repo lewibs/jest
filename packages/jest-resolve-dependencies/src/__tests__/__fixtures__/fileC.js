@@ -7,5 +7,5 @@
  */
 'use strict';
 
-const file = require('./fileB');
+const file = require('./fileD');
 console.log(file)

@@ -7,5 +7,4 @@
  */
 'use strict';
 
-const fileC = require("./fileC")
-console.log(fileC)
+console.log("LEWIBS")
