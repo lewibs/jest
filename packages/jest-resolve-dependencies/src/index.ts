@@ -40,6 +40,10 @@ export class DependencyResolver {
       return [];
     }
 
+    if (options?.maxDepth && options.maxDepth > 0) {
+      return ["yes"]
+    }
+
     return dependencies.reduce<Array<string>>((acc, dependency) => {
       if (this._resolver.isCoreModule(dependency)) {
         return acc;
@@ -167,6 +171,10 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<string> {
+    if (options?.maxDepth && options.maxDepth > 0) {
+      return ["yes"]
+    }
+
     return this.resolveInverseModuleMap(paths, filter, options).map(
       module => module.file,
     );

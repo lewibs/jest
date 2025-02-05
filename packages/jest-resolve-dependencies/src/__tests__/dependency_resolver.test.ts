@@ -164,3 +164,12 @@ test('resolves dependencies correctly when mock dependency resolution fails', ()
     expect.stringContaining(path.join('__tests__', '__fixtures__', 'file.js')),
   ]);
 });
+
+test('resolves dependencies correctly when maxDepth is set', () => {
+  const resolved = dependencyResolver.resolve(
+    path.resolve(__dirname, '__fixtures__', 'file.test.js'),
+    { maxDepth: 1 },
+  );
+
+  expect(resolved).toEqual(["yes"]);
+});
