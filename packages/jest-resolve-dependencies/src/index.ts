@@ -101,7 +101,6 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<ResolvedModule> {
-    console.log("resolveInverseModuleMap", paths)
     if (paths.size === 0) {
       return [];
     }
@@ -143,9 +142,7 @@ export class DependencyResolver {
     const relatedPaths = new Set<string>();
     const changed = new Set<string>();
     for (const path of paths) {
-      console.log("getting for path:", path)
       if (this._hasteFS.exists(path)) {
-        console.log("EXISTS", isSnapshotPath(path))
         const modulePath = isSnapshotPath(path)
           ? this._snapshotResolver.resolveTestPath(path)
           : path;
@@ -153,13 +150,11 @@ export class DependencyResolver {
         if (filter(modulePath)) {
           relatedPaths.add(modulePath);
         }
-      } else {
-        console.log("DNE")
       }
     }
 
-    console.log(relatedPaths)
-    console.log(changed)
+    console.log("related", relatedPaths)
+    console.log("changed", changed)
 
 
     const modules: Array<ResolvedModule> = [];
