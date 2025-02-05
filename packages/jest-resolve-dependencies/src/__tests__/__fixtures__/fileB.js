@@ -7,4 +7,6 @@
  */
 'use strict';
 
-require("./fileC")
+console.log("FILEB")
+require('./fileA');
+console.log("FILEB DONE")
