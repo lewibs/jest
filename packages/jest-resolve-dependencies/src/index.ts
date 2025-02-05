@@ -157,6 +157,11 @@ export class DependencyResolver {
         console.log("DNE")
       }
     }
+
+    console.log(relatedPaths)
+    console.log(changed)
+
+
     const modules: Array<ResolvedModule> = [];
     for (const file of this._hasteFS.getAbsoluteFileIterator()) {
       modules.push({
