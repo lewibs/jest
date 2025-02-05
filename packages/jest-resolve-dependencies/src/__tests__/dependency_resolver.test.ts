@@ -166,8 +166,9 @@ test('resolves dependencies correctly when mock dependency resolution fails', ()
 });
 
 test('resolves dependencies correctly when maxDepth is set', () => {
-  const resolved = dependencyResolver.resolve(
-    path.resolve(__dirname, '__fixtures__', 'file.js'),
+  const resolved = dependencyResolver.resolveInverseModuleMap(
+    new Set([path.resolve(__dirname, '__fixtures__', 'file.js')]),
+    filter,
     { maxDepth: 1 },
   );
 
