@@ -7,4 +7,5 @@
  */
 'use strict';
 
-require('./fileB');
+const file = require('./fileB');
+console.log(file)
