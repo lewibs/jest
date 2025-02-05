@@ -145,7 +145,7 @@ export class DependencyResolver {
     for (const path of paths) {
       console.log("getting for path:", path)
       if (this._hasteFS.exists(path)) {
-        console.log("EXISTS")
+        console.log("EXISTS", isSnapshotPath(path))
         const modulePath = isSnapshotPath(path)
           ? this._snapshotResolver.resolveTestPath(path)
           : path;
