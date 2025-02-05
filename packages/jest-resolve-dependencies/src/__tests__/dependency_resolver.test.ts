@@ -175,6 +175,4 @@ test('resolves dependencies correctly when maxDepth is set', () => {
     expect.stringContaining('jest-resolve-dependencies'),
     expect.stringContaining('jest-regex-util'),
   ]);
-
-  expect(resolved).toEqual(["yes"]);
 });
