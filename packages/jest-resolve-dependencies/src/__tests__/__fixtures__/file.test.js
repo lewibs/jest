@@ -8,6 +8,7 @@
 'use strict';
 
 const fileTest = require('./file');
+require("./fileB")
 
 test('sample', () => {
   expect(fileTest).toBeTruthy();
