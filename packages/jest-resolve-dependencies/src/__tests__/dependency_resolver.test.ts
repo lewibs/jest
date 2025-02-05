@@ -167,9 +167,14 @@ test('resolves dependencies correctly when mock dependency resolution fails', ()
 
 test('resolves dependencies correctly when maxDepth is set', () => {
   const resolved = dependencyResolver.resolve(
-    path.resolve(__dirname, '__fixtures__', 'file.test.js'),
+    path.resolve(__dirname, '__fixtures__', 'file.js'),
     { maxDepth: 1 },
   );
+
+  expect(resolved).toEqual([
+    expect.stringContaining('jest-resolve-dependencies'),
+    expect.stringContaining('jest-regex-util'),
+  ]);
 
   expect(resolved).toEqual(["yes"]);
 });

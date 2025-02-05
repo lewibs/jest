@@ -9,3 +9,4 @@
 
 require('jest-resolve-dependencies');
 require('jest-regex-util');
+require('jest-ksfdjkkljsdfkjlsdfjkl');
