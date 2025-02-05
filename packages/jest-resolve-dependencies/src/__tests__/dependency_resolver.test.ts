@@ -166,7 +166,7 @@ test('resolves dependencies correctly when mock dependency resolution fails', ()
 });
 
 test('resolves dependencies correctly when maxDepth is set', () => {
-  const resolved = dependencyResolver.resol(
+  const resolved = dependencyResolver.resolveInverse(
     new Set([path.resolve(__dirname, '__fixtures__', 'file.test.js')]),
     filter,
     { maxDepth: 1 },
