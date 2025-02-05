@@ -175,7 +175,7 @@ test('resolves dependencies correctly when maxDepth is set', () => {
   ]);
 
   paths = new Set([path.resolve(__dirname, '__fixtures__/fileA.js')]);
-  resolved = dependencyResolver.resolveInverse(paths, filter);
+  resolved = dependencyResolver.resolveInverse(paths, ()=>true);
   expect(resolved).toEqual([
     // expect.stringContaining(
     //   path.join('__tests__', '__fixtures__', 'fileA.test.js'),
