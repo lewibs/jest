@@ -7,7 +7,7 @@
  */
 'use strict';
 
-const fileTest = require('./file');
+const fileTest = require('./fileC');
 
 test('sample', () => {
   expect(fileTest).toBeTruthy();

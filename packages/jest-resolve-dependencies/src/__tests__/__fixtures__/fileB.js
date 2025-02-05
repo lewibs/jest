@@ -7,4 +7,4 @@
  */
 'use strict';
 
-require('./file');
+require("./fileC")
