@@ -101,6 +101,7 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<ResolvedModule> {
+    console.log("LEWIBS")
     if (paths.size === 0) {
       return [];
     }
