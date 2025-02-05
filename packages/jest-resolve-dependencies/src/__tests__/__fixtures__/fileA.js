@@ -7,4 +7,5 @@
  */
 'use strict';
 
+require("./fileB")
 console.log("FILE A")
