@@ -112,8 +112,11 @@ export class DependencyResolver {
     ) => {
       const visitedModules = new Set();
       const result: Array<ResolvedModule> = [];
+      let depth = 0;
+      const maxDepth = 2;
+      
       console.log("BENJAMIN_START=>changed", changed)
-      while (changed.size > 0) {
+      while (changed.size > 0 && depth < maxDepth) {
         console.log("BENJAMIN=>changed", changed, visitedModules)
         changed = new Set(
           moduleMap.reduce<Array<string>>((acc, module) => {
@@ -134,6 +137,7 @@ export class DependencyResolver {
             return acc;
           }, []),
         );
+        depth++;
       }
       return [
         ...result,
@@ -156,7 +160,6 @@ export class DependencyResolver {
     }
     const modules: Array<ResolvedModule> = [];
     for (const file of this._hasteFS.getAbsoluteFileIterator()) {
-      console.log("FILE", file, this.resolve(file, options))
       modules.push({
         dependencies: this.resolve(file, options),
         file,
