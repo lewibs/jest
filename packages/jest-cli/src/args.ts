@@ -50,7 +50,7 @@ export function check(argv: Config.Argv): true {
 
   if (argv.maxRelatedTestsDepth && !argv.findRelatedTests) {
     throw new Error(
-      'The --maxRelatedTestsDepth option requires --findRelatedTests is being used.' 
+      'The --maxRelatedTestsDepth option requires --findRelatedTests is being used.',
     );
   }
 
@@ -60,7 +60,7 @@ export function check(argv: Config.Argv): true {
   ) {
     throw new Error(
       'The --maxRelatedTestsDepth option must be a number.\n' +
-        'Example usage: jest --findRelatedTests --maxRelatedTestsDepth 2'
+        'Example usage: jest --findRelatedTests --maxRelatedTestsDepth 2',
     );
   }
 

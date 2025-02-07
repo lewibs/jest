@@ -7,5 +7,5 @@
  */
 'use strict';
 
-const file = require("./fileB")
-module.exports = file
+const file = require('./fileB');
+module.exports = file;
