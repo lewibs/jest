@@ -152,11 +152,6 @@ export class DependencyResolver {
         }
       }
     }
-
-    console.log("related", relatedPaths)
-    console.log("changed", changed)
-
-
     const modules: Array<ResolvedModule> = [];
     for (const file of this._hasteFS.getAbsoluteFileIterator()) {
       modules.push({
