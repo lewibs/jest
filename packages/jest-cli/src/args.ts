@@ -290,12 +290,6 @@ export const options: {[key: string]: Options} = {
       'the minimal amount of tests necessary.',
     type: 'boolean',
   },
-  maxRelatedTestsDepth: {
-    description:
-      'Specifies the maximum depth for finding related tests. Requires ' +
-      '--findRelatedTests to be used. Helps limit the scope of related test detection.',
-    type: 'number',
-  },
   forceExit: {
     description:
       'Force Jest to exit after all tests have completed running. ' +
@@ -369,6 +363,12 @@ export const options: {[key: string]: Options} = {
       'Specifies the maximum number of tests that are allowed to run ' +
       'concurrently. This only affects tests using `test.concurrent`.',
     requiresArg: true,
+    type: 'number',
+  },
+  maxRelatedTestsDepth: {
+    description:
+      'Specifies the maximum depth for finding related tests. Requires ' +
+      '--findRelatedTests to be used. Helps limit the scope of related test detection.',
     type: 'number',
   },
   maxWorkers: {
