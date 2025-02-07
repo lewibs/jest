@@ -8,4 +8,4 @@
 'use strict';
 
 const filename = "fileA"
-export default filename
+module.exports = filename
