@@ -101,6 +101,8 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<ResolvedModule> {
+    console.log("DEPTH", options?.maxDepth)
+
     if (paths.size === 0) {
       return [];
     }
