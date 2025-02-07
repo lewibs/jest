@@ -7,5 +7,5 @@
  */
 'use strict';
 
-const filename = require('./fileB');
+const filename = require('./fileB').default;
 export default filename
