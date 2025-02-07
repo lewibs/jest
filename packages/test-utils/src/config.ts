@@ -25,6 +25,7 @@ const DEFAULT_GLOBAL_CONFIG: Config.GlobalConfig = {
   expand: false,
   filter: undefined,
   findRelatedTests: false,
+  maxRelatedTestsDepth: Infinity,
   forceExit: false,
   globalSetup: undefined,
   globalTeardown: undefined,
