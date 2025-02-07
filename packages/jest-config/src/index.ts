@@ -97,6 +97,7 @@ const groupOptions = (
     expand: options.expand,
     filter: options.filter,
     findRelatedTests: options.findRelatedTests,
+    maxRelatedTestsDepth: options.maxRelatedTestsDepth,
     forceExit: options.forceExit,
     globalSetup: options.globalSetup,
     globalTeardown: options.globalTeardown,

@@ -48,6 +48,22 @@ export function check(argv: Config.Argv): true {
     );
   }
 
+  if (argv.maxRelatedTestsDepth && !argv.findRelatedTests) {
+    throw new Error(
+      'The --maxRelatedTestsDepth option requires --findRelatedTests is being used.' 
+    );
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(argv, 'maxRelatedTestsDepth') &&
+    typeof argv.maxRelatedTestsDepth !== 'number'
+  ) {
+    throw new Error(
+      'The --maxRelatedTestsDepth option must be a number.\n' +
+        'Example usage: jest --findRelatedTests --maxRelatedTestsDepth 2'
+    );
+  }
+
   if (
     Object.prototype.hasOwnProperty.call(argv, 'maxWorkers') &&
     argv.maxWorkers === undefined

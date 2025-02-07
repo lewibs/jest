@@ -425,6 +425,7 @@ export type Argv = Arguments<
     env: string;
     expand: boolean;
     findRelatedTests: boolean;
+    maxRelatedTestsDepth: number;
     forceExit: boolean;
     globals: string;
     globalSetup: string | null | undefined;
