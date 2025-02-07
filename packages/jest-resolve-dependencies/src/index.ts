@@ -112,7 +112,7 @@ export class DependencyResolver {
     ) => {
       const visitedModules = new Set();
       const result: Array<ResolvedModule> = [];
-      console.log("BENJAMIN=>changed", changed)
+      console.log("BENJAMIN_START=>changed", changed)
       while (changed.size > 0) {
         console.log("BENJAMIN=>changed", changed)
         changed = new Set(

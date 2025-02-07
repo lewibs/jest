@@ -8,7 +8,7 @@
 'use strict';
 
 
-const fileTest = require('./fileD');
+const fileTest = require('./fileD').default;
 
 test('sample', () => {
   expect(fileTest).toBe("fileA");
