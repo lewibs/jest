@@ -7,5 +7,4 @@
  */
 'use strict';
 
-require("./fileB")
-console.log("FILE A")
+export default const filename = "fileA"

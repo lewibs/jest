@@ -7,6 +7,4 @@
  */
 'use strict';
 
-console.log("FILEB")
-require('./fileA');
-console.log("FILEB DONE")
+export default const filename = require('./fileA');

@@ -166,22 +166,20 @@ test('resolves dependencies correctly when mock dependency resolution fails', ()
 });
 
 test('resolves dependencies correctly when maxDepth is set', () => {
-  let paths = new Set([path.resolve(__dirname, '__fixtures__/file.js')]);
-  let resolved = dependencyResolver.resolveInverse(paths, filter);
+  const paths = new Set([path.resolve(__dirname, '__fixtures__/fileA.js')]);
+  const resolved = dependencyResolver.resolveInverse(paths, ()=>true);
   expect(resolved).toEqual([
     expect.stringContaining(
-      path.join('__tests__', '__fixtures__', 'file.test.js'),
+      path.join('__tests__', '__fixtures__', 'fileA.test.js'),
     ),
-  ]);
-
-  paths = new Set([path.resolve(__dirname, '__fixtures__/fileA.js')]);
-  resolved = dependencyResolver.resolveInverse(paths, ()=>true);
-  expect(resolved).toEqual([
-    // expect.stringContaining(
-    //   path.join('__tests__', '__fixtures__', 'fileA.test.js'),
-    // ),
-    // expect.stringContaining(
-    //   path.join('__tests__', '__fixtures__', 'fileB.test.js'),
-    // ),
+    expect.stringContaining(
+      path.join('__tests__', '__fixtures__', 'fileB.test.js'),
+    ),
+    expect.stringContaining(
+      path.join('__tests__', '__fixtures__', 'fileC.test.js'),
+    ),
+    expect.stringContaining(
+      path.join('__tests__', '__fixtures__', 'fileD.test.js'),
+    ),
   ]);
 });
