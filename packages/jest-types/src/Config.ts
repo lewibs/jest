@@ -271,6 +271,7 @@ export type GlobalConfig = {
   expand: boolean;
   filter?: string;
   findRelatedTests: boolean;
+  maxRelatedTestsDepth: number;
   forceExit: boolean;
   json: boolean;
   globalSetup?: string;

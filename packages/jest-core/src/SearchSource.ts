@@ -290,7 +290,7 @@ export default class SearchSource {
       return this.findTestRelatedToChangedFiles(
         changedFiles,
         globalConfig.collectCoverage,
-        globalConfig.maxRelatedTestDepth,
+        globalConfig.maxRelatedTestsDepth,
       );
     }
 
@@ -306,7 +306,7 @@ export default class SearchSource {
       return this.findRelatedTestsFromPattern(
         paths,
         globalConfig.collectCoverage,
-        globalConfig.maxRelatedTestDepth,
+        globalConfig.maxRelatedTestsDepth,
       );
     } else {
       return this.findMatchingTests(
