@@ -178,6 +178,7 @@ export default class SearchSource {
   async findRelatedTests(
     allPaths: Set<string>,
     collectCoverage: boolean,
+    maxDepth: number,
   ): Promise<SearchResult> {
     const dependencyResolver = await this._getOrBuildDependencyResolver();
 
@@ -188,7 +189,10 @@ export default class SearchSource {
           dependencyResolver.resolveInverse(
             allPaths,
             this.isTestFilePath.bind(this),
-            {skipNodeResolution: this._context.config.skipNodeResolution},
+            {
+              maxDepth: maxDepth,
+              skipNodeResolution: this._context.config.skipNodeResolution
+            },
           ),
         ),
       };
@@ -197,7 +201,10 @@ export default class SearchSource {
     const testModulesMap = dependencyResolver.resolveInverseModuleMap(
       allPaths,
       this.isTestFilePath.bind(this),
-      {skipNodeResolution: this._context.config.skipNodeResolution},
+      {
+        maxDepth: maxDepth,
+        skipNodeResolution: this._context.config.skipNodeResolution
+      },
     );
 
     const allPathsAbsolute = new Set([...allPaths].map(p => path.resolve(p)));
@@ -246,12 +253,13 @@ export default class SearchSource {
   async findRelatedTestsFromPattern(
     paths: Array<string>,
     collectCoverage: boolean,
+    maxDepth: number
   ): Promise<SearchResult> {
     if (Array.isArray(paths) && paths.length > 0) {
       const resolvedPaths = paths.map(p =>
         path.resolve(this._context.config.cwd, p),
       );
-      return this.findRelatedTests(new Set(resolvedPaths), collectCoverage);
+      return this.findRelatedTests(new Set(resolvedPaths), collectCoverage, maxDepth);
     }
     return {tests: []};
   }
@@ -259,19 +267,23 @@ export default class SearchSource {
   async findTestRelatedToChangedFiles(
     changedFilesInfo: ChangedFiles,
     collectCoverage: boolean,
+    maxDepth: number
   ): Promise<SearchResult> {
     if (!hasSCM(changedFilesInfo)) {
       return {noSCM: true, tests: []};
     }
     const {changedFiles} = changedFilesInfo;
-    return this.findRelatedTests(changedFiles, collectCoverage);
+    return this.findRelatedTests(changedFiles, collectCoverage, maxDepth);
   }
 
   private async _getTestPaths(
     globalConfig: Config.GlobalConfig,
     projectConfig: Config.ProjectConfig,
     changedFiles?: ChangedFiles,
+    maxDepth?: number,
   ): Promise<SearchResult> {
+    maxDepth = maxDepth || Infinity
+
     if (globalConfig.onlyChanged) {
       if (!changedFiles) {
         throw new Error('Changed files must be set when running with -o.');
@@ -280,6 +292,7 @@ export default class SearchSource {
       return this.findTestRelatedToChangedFiles(
         changedFiles,
         globalConfig.collectCoverage,
+        maxDepth
       );
     }
 
@@ -295,6 +308,7 @@ export default class SearchSource {
       return this.findRelatedTestsFromPattern(
         paths,
         globalConfig.collectCoverage,
+        maxDepth,
       );
     } else {
       return this.findMatchingTests(
@@ -332,11 +346,13 @@ export default class SearchSource {
     projectConfig: Config.ProjectConfig,
     changedFiles?: ChangedFiles,
     filter?: Filter,
+    maxDepth?: number
   ): Promise<SearchResult> {
     const searchResult = await this._getTestPaths(
       globalConfig,
       projectConfig,
       changedFiles,
+      maxDepth,
     );
 
     const filterPath = globalConfig.filter;
