@@ -290,6 +290,12 @@ export const options: {[key: string]: Options} = {
       'the minimal amount of tests necessary.',
     type: 'boolean',
   },
+  maxRelatedTestsDepth: {
+    description:
+      'Specifies the maximum depth for finding related tests. Requires ' +
+      '--findRelatedTests to be used. Helps limit the scope of related test detection.',
+    type: 'number',
+  },
   forceExit: {
     description:
       'Force Jest to exit after all tests have completed running. ' +
