@@ -7,4 +7,5 @@
  */
 'use strict';
 
-export default const filename = "fileA"
+const filename = "fileA"
+export default filename

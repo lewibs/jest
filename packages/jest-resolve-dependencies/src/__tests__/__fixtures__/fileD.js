@@ -7,4 +7,5 @@
  */
 'use strict';
 
-export default const filename = require('./fileC');
+const filename = require('./fileC');
+export default filename
