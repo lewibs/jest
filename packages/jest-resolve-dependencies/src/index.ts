@@ -113,11 +113,9 @@ export class DependencyResolver {
       const visitedModules = new Set();
       const result: Array<ResolvedModule> = [];
       let depth = 0;
-      const maxDepth = 2;
+      const maxDepth = options?.maxDepth || Infinity
       
-      console.log("BENJAMIN_START=>changed", changed)
       while (changed.size > 0 && depth < maxDepth) {
-        console.log("BENJAMIN=>changed", changed, visitedModules)
         changed = new Set(
           moduleMap.reduce<Array<string>>((acc, module) => {
             if (
@@ -166,7 +164,6 @@ export class DependencyResolver {
       });
     }
 
-    console.log("MAP", modules)
     return collectModules(relatedPaths, modules, changed);
   }
 
@@ -175,7 +172,6 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<string> {
-    console.log("resolveInverse", paths, filter, options)
     return this.resolveInverseModuleMap(paths, filter, options).map(
       module => module.file,
     );
