@@ -166,7 +166,7 @@ beforeEach(async () => {
 // });
 
 test('resolves dependencies correctly when maxDepth is set', () => {
-  const filename = require("./__fixtures__/fileD.js").default
+  const filename = require("./__fixtures__/fileD.js")
   expect(filename).toBe("fileA")
 
   const paths = new Set([path.resolve(__dirname, '__fixtures__/fileA.js')]);
