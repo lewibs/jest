@@ -172,6 +172,7 @@ export class DependencyResolver {
     filter: (file: string) => boolean,
     options?: ResolveModuleConfig,
   ): Array<string> {
+    console.log("resolveInverse", paths, filter, options)
     return this.resolveInverseModuleMap(paths, filter, options).map(
       module => module.file,
     );
