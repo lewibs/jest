@@ -162,6 +162,8 @@ export class DependencyResolver {
         file,
       });
     }
+
+    console.log("MAP", modules)
     return collectModules(relatedPaths, modules, changed);
   }
 
