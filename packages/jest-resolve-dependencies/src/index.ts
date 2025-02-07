@@ -114,7 +114,7 @@ export class DependencyResolver {
       const result: Array<ResolvedModule> = [];
       console.log("BENJAMIN_START=>changed", changed)
       while (changed.size > 0) {
-        console.log("BENJAMIN=>changed", changed, visitedModules)
+        console.log("BENJAMIN=>changed", changed, visitedModules, moduleMap)
         changed = new Set(
           moduleMap.reduce<Array<string>>((acc, module) => {
             if (
