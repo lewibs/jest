@@ -50,9 +50,6 @@ export async function runCLI(
   const outputStream =
     argv.json || argv.useStderr ? process.stderr : process.stdout;
 
-
-  console.log("ARGS", argv)
-
   const {globalConfig, configs, hasDeprecationWarnings} = await readConfigs(
     argv,
     projects,

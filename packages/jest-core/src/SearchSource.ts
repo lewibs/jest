@@ -180,7 +180,6 @@ export default class SearchSource {
     collectCoverage: boolean,
     maxDepth: number
   ): Promise<SearchResult> {
-    console.log("findRelatedTests", maxDepth)
     const dependencyResolver = await this._getOrBuildDependencyResolver();
 
     if (!collectCoverage) {
@@ -256,7 +255,6 @@ export default class SearchSource {
     collectCoverage: boolean,
     maxDepth: number
   ): Promise<SearchResult> {
-    console.log("findRelatedTestsFromPattern", maxDepth)
     if (Array.isArray(paths) && paths.length > 0) {
       const resolvedPaths = paths.map(p =>
         path.resolve(this._context.config.cwd, p),
@@ -271,7 +269,6 @@ export default class SearchSource {
     collectCoverage: boolean,
     maxDepth: number
   ): Promise<SearchResult> {
-    console.log("findTestRelatedToChangedFiles", maxDepth)
     if (!hasSCM(changedFilesInfo)) {
       return {noSCM: true, tests: []};
     }
@@ -284,8 +281,6 @@ export default class SearchSource {
     projectConfig: Config.ProjectConfig,
     changedFiles?: ChangedFiles,
   ): Promise<SearchResult> {
-    console.log("_getTestPaths", globalConfig.maxRelatedTestsDepth)
-
     if (globalConfig.onlyChanged) {
       if (!changedFiles) {
         throw new Error('Changed files must be set when running with -o.');
@@ -382,7 +377,6 @@ export default class SearchSource {
   async findRelatedSourcesFromTestsInChangedFiles(
     changedFilesInfo: ChangedFiles,
   ): Promise<Array<string>> {
-    console.log("findRelatedSourcesFromTestsInChangedFiles")
     if (!hasSCM(changedFilesInfo)) {
       return [];
     }

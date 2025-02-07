@@ -157,7 +157,6 @@ export default async function runJest({
   failedTestsCache?: FailedTestsCache;
   filter?: Filter;
 }): Promise<void> {
-  console.log("runJest", globalConfig.maxRelatedTestsDepth, globalConfig.findRelatedTests)
   // Clear cache for required modules - there might be different resolutions
   // from Jest's config loading to running the tests
   Resolver.clearDefaultResolverCache();
@@ -190,7 +189,6 @@ export default async function runJest({
   const testRunData: TestRunData = await Promise.all(
     contexts.map(async (context, index) => {
       const searchSource = searchSources[index];
-      console.log("CONFIGS", globalConfig.maxRelatedTestsDepth)
       const matches = await getTestPaths(
         globalConfig,
         context.config,
