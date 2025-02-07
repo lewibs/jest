@@ -8,4 +8,4 @@
 'use strict';
 
 const filename = require('./fileC');
-module.exports = filename
+module.exports = filename;

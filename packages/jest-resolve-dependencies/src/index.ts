@@ -113,8 +113,8 @@ export class DependencyResolver {
       const visitedModules = new Set();
       const result: Array<ResolvedModule> = [];
       let depth = 0;
-      const maxDepth = options?.maxDepth || Infinity
-      
+      const maxDepth = options?.maxDepth || Infinity;
+
       while (changed.size > 0 && depth < maxDepth) {
         changed = new Set(
           moduleMap.reduce<Array<string>>((acc, module) => {
