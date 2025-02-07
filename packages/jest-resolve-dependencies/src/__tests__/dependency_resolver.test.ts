@@ -169,7 +169,7 @@ test('resolves dependencies correctly when maxDepth is set', () => {
   const filename = require("./__fixtures__/fileD.js").default
   expect(filename).toBe("fileA")
 
-  const paths = new Set([path.resolve(__dirname, '__fixtures__/fileA.js')]);
+  const paths = new Set([path.resolve(__dirname, '__fixtures__/fileC.js')]);
   const resolved = dependencyResolver.resolveInverse(paths, filter);
   expect(resolved).toEqual([
     expect.stringContaining(
