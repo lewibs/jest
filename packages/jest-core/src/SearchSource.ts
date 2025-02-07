@@ -178,7 +178,7 @@ export default class SearchSource {
   async findRelatedTests(
     allPaths: Set<string>,
     collectCoverage: boolean,
-    maxDepth: number,
+    maxDepth: number
   ): Promise<SearchResult> {
     const dependencyResolver = await this._getOrBuildDependencyResolver();
 
@@ -280,9 +280,7 @@ export default class SearchSource {
     globalConfig: Config.GlobalConfig,
     projectConfig: Config.ProjectConfig,
     changedFiles?: ChangedFiles,
-    maxDepth?: number,
   ): Promise<SearchResult> {
-    maxDepth = maxDepth || Infinity
 
     if (globalConfig.onlyChanged) {
       if (!changedFiles) {
@@ -292,7 +290,7 @@ export default class SearchSource {
       return this.findTestRelatedToChangedFiles(
         changedFiles,
         globalConfig.collectCoverage,
-        maxDepth
+        globalConfig.maxRelatedTestDepth,
       );
     }
 
@@ -308,7 +306,7 @@ export default class SearchSource {
       return this.findRelatedTestsFromPattern(
         paths,
         globalConfig.collectCoverage,
-        maxDepth,
+        globalConfig.maxRelatedTestDepth,
       );
     } else {
       return this.findMatchingTests(
@@ -346,13 +344,11 @@ export default class SearchSource {
     projectConfig: Config.ProjectConfig,
     changedFiles?: ChangedFiles,
     filter?: Filter,
-    maxDepth?: number
   ): Promise<SearchResult> {
     const searchResult = await this._getTestPaths(
       globalConfig,
       projectConfig,
       changedFiles,
-      maxDepth,
     );
 
     const filterPath = globalConfig.filter;
