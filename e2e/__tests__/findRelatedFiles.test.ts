@@ -263,7 +263,7 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toBe('');
   });
 
-  test('runs tests with dependency chain', () => {
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
     writeFiles(DIR, {
       '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
@@ -300,34 +300,122 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toMatch('PASS __tests__/b.test.js');
     expect(stderr).toMatch('PASS __tests__/c.test.js');
     expect(stderr).toMatch('PASS __tests__/d.test.js');
+  });
 
-    res = runJest(DIR, ['--maxRelatedTestsDepth=2', '--findRelatedTests', 'a.js']);
-    stderr = res.stderr
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+    writeFiles(DIR, {
+      '.watchmanconfig': '{}',
+      '__tests__/a.test.js': `
+        const a = require('../a');
+        test('a', () => {expect(a).toBe("value")});
+      `,
+      '__tests__/b.test.js': `
+        const b = require('../b');
+        test('b', () => {expect(b).toBe("value")});
+      `,
+      '__tests__/c.test.js': `
+        const c = require('../c');
+        test('c', () => {expect(c).toBe("value")});
+      `,
+      '__tests__/d.test.js': `
+        const d = require('../d');
+        test('d', () => {expect(d).toBe("value")});
+      `,
+      'a.js': 'module.exports = "value";',
+      'b.js': 'module.exports = require("./a");',
+      'c.js': 'module.exports = require("./b");',
+      'd.js': 'module.exports = require("./c");',
+      'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
+    });
+
+
+
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let stderr = res.stderr
 
     console.log(stderr)
 
     expect(stderr).toMatch('PASS __tests__/a.test.js');
     expect(stderr).toMatch('PASS __tests__/b.test.js');
     expect(stderr).toMatch('PASS __tests__/c.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
+  });
 
-    res = runJest(DIR, ['--maxRelatedTestsDepth=1', '--findRelatedTests', 'a.js']);
-    stderr = res.stderr
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+    writeFiles(DIR, {
+      '.watchmanconfig': '{}',
+      '__tests__/a.test.js': `
+        const a = require('../a');
+        test('a', () => {expect(a).toBe("value")});
+      `,
+      '__tests__/b.test.js': `
+        const b = require('../b');
+        test('b', () => {expect(b).toBe("value")});
+      `,
+      '__tests__/c.test.js': `
+        const c = require('../c');
+        test('c', () => {expect(c).toBe("value")});
+      `,
+      '__tests__/d.test.js': `
+        const d = require('../d');
+        test('d', () => {expect(d).toBe("value")});
+      `,
+      'a.js': 'module.exports = "value";',
+      'b.js': 'module.exports = require("./a");',
+      'c.js': 'module.exports = require("./b");',
+      'd.js': 'module.exports = require("./c");',
+      'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
+    });
+
+
+
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let stderr = res.stderr
 
     console.log(stderr)
 
     expect(stderr).toMatch('PASS __tests__/a.test.js');
     expect(stderr).toMatch('PASS __tests__/b.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/c.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
+  });
 
-    res = runJest(DIR, ['--maxRelatedTestsDepth=0', '--findRelatedTests', 'a.js']);
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+    writeFiles(DIR, {
+      '.watchmanconfig': '{}',
+      '__tests__/a.test.js': `
+        const a = require('../a');
+        test('a', () => {expect(a).toBe("value")});
+      `,
+      '__tests__/b.test.js': `
+        const b = require('../b');
+        test('b', () => {expect(b).toBe("value")});
+      `,
+      '__tests__/c.test.js': `
+        const c = require('../c');
+        test('c', () => {expect(c).toBe("value")});
+      `,
+      '__tests__/d.test.js': `
+        const d = require('../d');
+        test('d', () => {expect(d).toBe("value")});
+      `,
+      'a.js': 'module.exports = "value";',
+      'b.js': 'module.exports = require("./a");',
+      'c.js': 'module.exports = require("./b");',
+      'd.js': 'module.exports = require("./c");',
+      'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
+    });
+
+
+
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let stderr = res.stderr
 
     console.log(stderr)
 
     expect(stderr).toMatch('PASS __tests__/a.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/b.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/c.test.js');
-    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
+    expect(stderr).toMatch('PASS __tests__/b.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
   });
 });
