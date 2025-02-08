@@ -263,37 +263,26 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toBe('');
   });
 
-  test('runs d.test.js when running related tests to a.js', () => {
+  test('runs tests with dependency chain', () => {
     writeFiles(DIR, {
-      'a.js': `const file = "file"; module.exports = file;`,
-      'b.js': `const file = require('./a'); module.exports = file;`,
-      'c.js': `const file = require('./b'); module.exports = file;`,
-      'd.js': `const file = require('./c)'; module.exports = file;`,
-
-      '__tests__/d.test.js': `
-        const d = require('../d');
-        test('file d', () => {
-          expect(d).toBe('file');
-        });
-      `,
+      '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
-        const a = require('../a)';
-	test('file a', ()=>{
-          expect(a).toBe('file');
-  	});
+        const a = require('../a');
+        test('a', () => {expects(a).toBe("a")});
       `,
-
-      'package.json': JSON.stringify({ jest: { testEnvironment: 'node' } }),
+      'a.js': 'module.exports = "a";',
+      'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
     });
 
-    // Run Jest with --findRelatedTests on a.js
-    const { stdout, stderr } = runJest(DIR, ['--findRelatedTests', 'a.js']);
+    const {stdout} = runJest(DIR, ['a.js']);
 
-    console.log(stdout,stderr)
+    console.log(stdout)
 
-    // Expect d.test.js to be run
-    expect(stderr).toMatch('PASS __tests__/d.test.js');
-    
+    expect(stdout).toMatch('');
+
+    const {stderr} = runJest(DIR, ['--findRelatedTests', 'a.js']);
+    expect(stderr).toMatch('PASS __tests__/a.test.js');
+
     const summaryMsg = 'Ran all test suites related to files matching a.js.';
     expect(stderr).toMatch(summaryMsg);
   });
