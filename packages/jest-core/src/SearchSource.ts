@@ -178,7 +178,7 @@ export default class SearchSource {
   async findRelatedTests(
     allPaths: Set<string>,
     collectCoverage: boolean,
-    maxDepth: number
+    maxDepth: number,
   ): Promise<SearchResult> {
     const dependencyResolver = await this._getOrBuildDependencyResolver();
 
@@ -190,8 +190,8 @@ export default class SearchSource {
             allPaths,
             this.isTestFilePath.bind(this),
             {
-              maxDepth: maxDepth,
-              skipNodeResolution: this._context.config.skipNodeResolution
+              maxDepth,
+              skipNodeResolution: this._context.config.skipNodeResolution,
             },
           ),
         ),
@@ -202,8 +202,8 @@ export default class SearchSource {
       allPaths,
       this.isTestFilePath.bind(this),
       {
-        maxDepth: maxDepth,
-        skipNodeResolution: this._context.config.skipNodeResolution
+        maxDepth,
+        skipNodeResolution: this._context.config.skipNodeResolution,
       },
     );
 
@@ -253,13 +253,17 @@ export default class SearchSource {
   async findRelatedTestsFromPattern(
     paths: Array<string>,
     collectCoverage: boolean,
-    maxDepth: number
+    maxDepth: number,
   ): Promise<SearchResult> {
     if (Array.isArray(paths) && paths.length > 0) {
       const resolvedPaths = paths.map(p =>
         path.resolve(this._context.config.cwd, p),
       );
-      return this.findRelatedTests(new Set(resolvedPaths), collectCoverage, maxDepth);
+      return this.findRelatedTests(
+        new Set(resolvedPaths),
+        collectCoverage,
+        maxDepth,
+      );
     }
     return {tests: []};
   }
@@ -267,7 +271,7 @@ export default class SearchSource {
   async findTestRelatedToChangedFiles(
     changedFilesInfo: ChangedFiles,
     collectCoverage: boolean,
-    maxDepth: number
+    maxDepth: number,
   ): Promise<SearchResult> {
     if (!hasSCM(changedFilesInfo)) {
       return {noSCM: true, tests: []};

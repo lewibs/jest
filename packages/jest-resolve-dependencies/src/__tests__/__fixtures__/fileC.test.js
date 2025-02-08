@@ -10,5 +10,5 @@
 const file = require('./fileC');
 
 test('sample', () => {
-  expect(file).toBe("fileA");
+  expect(file).toBe('fileA');
 });

@@ -7,5 +7,5 @@
  */
 'use strict';
 
-const file = "fileA"
-module.exports = file
+const file = 'fileA';
+module.exports = file;
