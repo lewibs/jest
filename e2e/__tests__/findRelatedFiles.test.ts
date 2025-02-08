@@ -289,7 +289,10 @@ describe('--findRelatedTests flag', () => {
       'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
     });
 
-    const {stderr} = runJest(DIR, ['--findRelatedTests', 'a.js']);
+
+
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=4', '--findRelatedTests', 'a.js']);
+    let stderr = res.stderr
 
     console.log(stderr)
 
@@ -298,7 +301,33 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toMatch('PASS __tests__/c.test.js');
     expect(stderr).toMatch('PASS __tests__/d.test.js');
 
-    const summaryMsg = 'Ran all test suites related to files matching a.js.';
-    expect(stderr).toMatch(summaryMsg);
+    res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    stderr = res.stderr
+
+    console.log(stderr)
+
+    expect(stderr).toMatch('PASS __tests__/a.test.js');
+    expect(stderr).toMatch('PASS __tests__/b.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
+
+    res = runJest(DIR, ['--maxRelatedTestsDepth=2', '--findRelatedTests', 'a.js']);
+    stderr = res.stderr
+
+    console.log(stderr)
+
+    expect(stderr).toMatch('PASS __tests__/a.test.js');
+    expect(stderr).toMatch('PASS __tests__/b.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
+
+    res = runJest(DIR, ['--maxRelatedTestsDepth=1', '--findRelatedTests', 'a.js']);
+
+    console.log(stderr)
+
+    expect(stderr).toMatch('PASS __tests__/a.test.js');
+    expect(stderr).toMatch('PASS __tests__/b.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
   });
 });
