@@ -289,14 +289,14 @@ describe('--findRelatedTests flag', () => {
       'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
     });
 
-    const {stdout} = runJest(DIR, ['a.js']);
-
-    console.log(stdout)
-
-    expect(stdout).toMatch('');
-
     const {stderr} = runJest(DIR, ['--findRelatedTests', 'a.js']);
-    expect(stderr).toMatch('PASS __tests__/a.test.js afdsd');
+
+    console.log(stderr)
+
+    expect(stderr).toMatch('PASS __tests__/a.test.js');
+    expect(stderr).toMatch('PASS __tests__/b.test.js');
+    expect(stderr).toMatch('PASS __tests__/c.test.js');
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
 
     const summaryMsg = 'Ran all test suites related to files matching a.js.';
     expect(stderr).toMatch(summaryMsg);
