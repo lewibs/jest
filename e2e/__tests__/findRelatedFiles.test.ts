@@ -263,7 +263,7 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toBe('');
   });
 
-  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=4', () => {
     writeFiles(DIR, {
       '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
@@ -291,7 +291,7 @@ describe('--findRelatedTests flag', () => {
 
 
 
-    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=4', '--findRelatedTests', 'a.js']);
     let stderr = res.stderr
 
     console.log(stderr)
@@ -338,10 +338,10 @@ describe('--findRelatedTests flag', () => {
     expect(stderr).toMatch('PASS __tests__/a.test.js');
     expect(stderr).toMatch('PASS __tests__/b.test.js');
     expect(stderr).toMatch('PASS __tests__/c.test.js');
-    expect(stderr).toMatch('PASS __tests__/d.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
   });
 
-  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=2', () => {
     writeFiles(DIR, {
       '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
@@ -369,18 +369,18 @@ describe('--findRelatedTests flag', () => {
 
 
 
-    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=2', '--findRelatedTests', 'a.js']);
     let stderr = res.stderr
 
     console.log(stderr)
 
     expect(stderr).toMatch('PASS __tests__/a.test.js');
     expect(stderr).toMatch('PASS __tests__/b.test.js');
-    expect(stderr).toMatch('PASS __tests__/c.test.js');
-    expect(stderr).toMatch('PASS __tests__/d.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/c.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
   });
 
-  test('runs tests with dependency chain and --maxRelatedTestsDepth=3', () => {
+  test('runs tests with dependency chain and --maxRelatedTestsDepth=1', () => {
     writeFiles(DIR, {
       '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
@@ -408,14 +408,14 @@ describe('--findRelatedTests flag', () => {
 
 
 
-    let res = runJest(DIR, ['--maxRelatedTestsDepth=3', '--findRelatedTests', 'a.js']);
+    let res = runJest(DIR, ['--maxRelatedTestsDepth=1', '--findRelatedTests', 'a.js']);
     let stderr = res.stderr
 
     console.log(stderr)
 
     expect(stderr).toMatch('PASS __tests__/a.test.js');
-    expect(stderr).toMatch('PASS __tests__/b.test.js');
-    expect(stderr).toMatch('PASS __tests__/c.test.js');
-    expect(stderr).toMatch('PASS __tests__/d.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/b.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/c.test.js');
+    expect(stderr).not.toMatch('PASS __tests__/d.test.js');
   });
 });
