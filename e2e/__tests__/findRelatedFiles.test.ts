@@ -262,4 +262,31 @@ describe('--findRelatedTests flag', () => {
     expect(stdout).toMatch('No tests found');
     expect(stderr).toBe('');
   });
+
+  test('runs d.test.js when running related tests to a.js', () => {
+    writeFiles(DIR, {
+      'a.js': `const b = require('./b'); module.exports = b;`,
+      'b.js': `const c = require('./c'); module.exports = c;`,
+      'c.js': `const d = require('./d'); module.exports = d;`,
+      'd.js': `module.exports = () => 'I am D';`,
+
+      '__tests__/d.test.js': `
+        const d = require('../d');
+        test('D test', () => {
+          expect(d()).toBe('I am D');
+        });
+      `,
+
+      'package.json': JSON.stringify({ jest: { testEnvironment: 'node' } }),
+    });
+
+    // Run Jest with --findRelatedTests on a.js
+    const { stderr } = runJest(DIR, ['--findRelatedTests', 'a.js']);
+    
+    // Expect d.test.js to be run
+    expect(stderr).toMatch('PASS __tests__/d.test.js');
+    
+    const summaryMsg = 'Ran all test suites related to files matching a.js.';
+    expect(stderr).toMatch(summaryMsg);
+  });
 });
