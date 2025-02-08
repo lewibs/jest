@@ -268,9 +268,24 @@ describe('--findRelatedTests flag', () => {
       '.watchmanconfig': '{}',
       '__tests__/a.test.js': `
         const a = require('../a');
-        test('a', () => {expects(a).toBe("a")});
+        test('a', () => {expect(a).toBe("value")});
       `,
-      'a.js': 'module.exports = "a";',
+      '__tests__/b.test.js': `
+        const b = require('../b');
+        test('b', () => {expect(b).toBe("value")});
+      `,
+      '__tests__/c.test.js': `
+        const c = require('../c');
+        test('c', () => {expect(c).toBe("value")});
+      `,
+      '__tests__/d.test.js': `
+        const d = require('../d');
+        test('d', () => {expect(d).toBe("value")});
+      `,
+      'a.js': 'module.exports = "value";',
+      'b.js': 'module.exports = require("./a");',
+      'c.js': 'module.exports = require("./b");',
+      'd.js': 'module.exports = require("./c");',
       'package.json': JSON.stringify({jest: {testEnvironment: 'node'}}),
     });
 
