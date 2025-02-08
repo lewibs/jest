@@ -292,7 +292,7 @@ describe('--findRelatedTests flag', () => {
         expect(stderr).toMatch(`PASS __tests__/${testFile}.test.js`);
       });
   
-      ['a', 'b', 'c', 'd'].forEach((testFile) => {
+      ['a', 'b', 'b2', 'c', 'd'].forEach((testFile) => {
         if (!expectedTests.includes(testFile)) {
           expect(stderr).not.toMatch(`PASS __tests__/${testFile}.test.js`);
         }
